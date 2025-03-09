@@ -6,6 +6,14 @@ from gtts import gTTS
 import os
 from deep_translator import GoogleTranslator
 from pydub import AudioSegment
+from pydub.utils import which
+
+# Ensure ffmpeg is set correctly
+AudioSegment.converter = which("ffmpeg")
+AudioSegment.ffprobe = which("ffprobe")
+
+# Fix for inotify watch limit (optional, required for some servers)
+os.system("echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p")
 
 # Supported languages for translation and TTS
 LANGUAGES = {
